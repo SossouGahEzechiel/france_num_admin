@@ -9,6 +9,9 @@
 					<h3 class="mt-6 text-center text-lg font-bold text-gray-900">
 						Connectez-vous à votre compte
 					</h3>
+					<p class="bg-red-300 text-center text-lg text-white mt-3 p-2 border border-red-500 rounded" v-if="message">
+						{{ message }}</p>
+					<!--					<p class="bg-red-300 text-center text-lg font-bold text-white">{{ message}}</p>-->
 				</div>
 				<form class="space-y-6" @submit.prevent="handleLogin" method="post">
 					<!-- Champ Email -->
@@ -134,11 +137,17 @@
 
 <script lang="js" setup>
 
+import {useAuthStore} from "~/stores/AuthStore.js";
+import {AppUrls} from "~/utils/app-urls.js";
+import getErrorMessage from "~/utils/get-error-message.js";
+
+const authStore = useAuthStore();
+
 const email = ref('');
 const password = ref('');
 const showPassword = ref(false);
 const loading = ref(false);
-const rememberMe = ref(false);
+const message = ref("");
 
 const togglePasswordVisibility = () => {
 	showPassword.value = !showPassword.value;
@@ -147,20 +156,19 @@ const togglePasswordVisibility = () => {
 const handleLogin = async () => {
 	loading.value = true;
 	try {
-		// Simuler une requête API
-		await new Promise(resolve => setTimeout(resolve, 1500));
-		console.log('Connexion réussie', {
-			email: email.value,
-			password: password.value,
-			remember: rememberMe.value
-		});
-		// Redirection ou autre logique après connexion
+		authStore.login({email: email.value, password: password.value})
+				.then(async _ => {
+					loading.value = false;
+					message.value = getErrorMessage(authStore.message)
+				})
+				.catch(error => {
+					message.value = getErrorMessage(error)
+					loading.value = false;
+					password.value = '';
+					// message.value = authStore.message;
+				});
 	} catch (error) {
 		console.error('Erreur de connexion', error);
-	} finally {
-		loading.value = false;
-		await navigateTo("/dashboard");
-		// await navigateTo(AppUrls.DASHBOARD.path);
 	}
 };
 </script>

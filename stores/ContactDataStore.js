@@ -1,6 +1,8 @@
 import {defineStore} from "pinia";
-import {ApiUrls} from "~/utils/api-urls.js";
+import {ApiUrls} from "~/composables/api-urls.ts";
 import getErrorMessage from "~/utils/get-error-message.js";
+import {useApi} from "~/composables/use-api.js";
+
 
 export const useContactDataStore = defineStore('ContactDataStore', {
 	state: () => ({
@@ -17,8 +19,11 @@ export const useContactDataStore = defineStore('ContactDataStore', {
 	}),
 	actions: {
 		async get() {
+			const apiUrls = ApiUrls();
+			const api = useApi();
+
 			try {
-				const response = await $fetch(ApiUrls.getAsUrl(ApiUrls.getConfigs));
+				const response = await api.get(apiUrls.getConfigs)
 				this.contactData = response.data;
 				this.message = response.message || "Données chargées avec succès";
 			} catch (error) {
@@ -27,11 +32,14 @@ export const useContactDataStore = defineStore('ContactDataStore', {
 		},
 
 		async update(data) {
+			const apiUrls = ApiUrls();
+			const api = useApi();
+
 			try {
-				const response = await $fetch(ApiUrls.getAsUrl(ApiUrls.updateConfig) + "/" + this.contactData.id, {
-					method: "PUT",
-					body: data
-				});
+				const response = await api.put(
+					apiUrls.updateConfig + "/" + this.contactData.id,
+					data
+				)
 
 				this.contactData = response.data;
 				this.message = response.message || "Données mises à jour avec succès";

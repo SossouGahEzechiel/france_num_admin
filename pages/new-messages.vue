@@ -138,7 +138,7 @@ newMessagesStore.getNewMessages().then(_ => {
 	newMessages.value = newMessagesStore.newMessages;
 	responseMessage.value = newMessagesStore.message;
 	showToastify();
-	localStorage.setItem("newMessagesCount", JSON.stringify(newMessages.value.length));
+	localStorage.setItem("newMessagesCount", newMessages.value.length);
 	console.log("localStorage:", localStorage.getItem("newMessagesCount"));
 });
 

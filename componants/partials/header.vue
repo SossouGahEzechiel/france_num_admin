@@ -15,7 +15,7 @@
 					<div class="relative">
 						<button @click="toggleUserMenu"
 						        class="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center focus:outline-none">
-							<span class="text-white text-sm font-medium">JD</span>
+							<span class="text-white text-sm font-medium">{{ userSymbol }}</span>
 						</button>
 
 						<!-- Menu utilisateur -->
@@ -48,10 +48,11 @@
 </template>
 
 <script lang="js" setup>
-import {ref} from 'vue';
 import {AppUrls} from "~/utils/app-urls.js"
 
 const isUserMenuOpen = ref(false);
+
+const userSymbol = ref("");
 
 const toggleUserMenu = () => {
 	isUserMenuOpen.value = !isUserMenuOpen.value;
@@ -68,6 +69,7 @@ const handleClickOutside = (event) => {
 // Écouteur d'événement pour fermer le menu
 onMounted(() => {
 	document.addEventListener('click', handleClickOutside);
+	userSymbol.value = localStorage.getItem('user-symbol');
 });
 
 onBeforeUnmount(() => {

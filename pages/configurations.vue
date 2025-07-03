@@ -112,6 +112,9 @@
 </template>
 
 <script setup lang="js">
+definePageMeta({
+	middleware: 'auth'
+})
 import MainVue from "~/componants/main-vue.vue";
 import {useContactDataStore} from "~/stores/ContactDataStore";
 import ConfirmModal from "~/componants/configs/confirm-modal.vue";

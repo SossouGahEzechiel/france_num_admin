@@ -9,7 +9,8 @@ const getErrorMessage = (error) => {
 		console.log(2)
 		return error.response._data.message;
 	}
-	console.log(3)
+	console.log(3);
+	console.log("Error 3:", error)
 	// Message d'erreur par défaut
 	return error.message || "Une erreur s'est produite";
 };
