@@ -6,15 +6,9 @@
 					<h2 class="text-lg font-semibold text-gray-900 ml-12 lg:ml-0"></h2>
 				</div>
 				<div class="flex items-center space-x-4">
-					<button class="p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-lg">
-						<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-							      d="M15 17h5l-3.5-3.5a1.5 1.5 0 010-2.12L20 8h-5M9 17H4l3.5-3.5a1.5 1.5 0 000-2.12L4 8h5"></path>
-						</svg>
-					</button>
 					<div class="relative">
 						<button @click="toggleUserMenu"
-						        class="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center focus:outline-none">
+						        class="w-8 h-8 bg-blue-300 rounded-full flex items-center justify-center focus:outline-none hover:bg-blue-500">
 							<span class="text-white text-sm font-medium">{{ userSymbol }}</span>
 						</button>
 
@@ -30,14 +24,14 @@
 								</svg>
 								Mon compte
 							</a>
-							<a :href="AppUrls.LOGIN.path"
+							<a href="javascript:void(0);" @click="handleLogout"
 							   class="group flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-700">
 								<svg class="w-5 h-5 mr-3 text-gray-400 group-hover:text-blue-500" fill="none" stroke="currentColor"
 								     viewBox="0 0 24 24">
 									<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
 									      d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path>
 								</svg>
-								{{ AppUrls.LOGIN.text }}
+								Me déconnecter
 							</a>
 						</div>
 					</div>
@@ -48,7 +42,8 @@
 </template>
 
 <script lang="js" setup>
-import {AppUrls} from "~/utils/app-urls.js"
+
+const authStore = useAuthStore();
 
 const isUserMenuOpen = ref(false);
 
@@ -75,4 +70,8 @@ onMounted(() => {
 onBeforeUnmount(() => {
 	document.removeEventListener('click', handleClickOutside);
 });
+
+const handleLogout = () => {
+	authStore.logout();
+}
 </script>

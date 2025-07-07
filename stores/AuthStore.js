@@ -20,24 +20,19 @@ export const useAuthStore = defineStore('AuthStore', {
 	actions: {
 		// Initialiser depuis le localStorage/cookie au démarrage
 		initAuth() {
-			console.log("Init auth")
 			if (process.client) {
-				console.log("Client side:", localStorage.getItem('auth-token'), localStorage.getItem('auth-user'))
 				const savedToken = localStorage.getItem('auth-token')
 				const savedUser = localStorage.getItem('auth-user')
 
 				if (savedToken !== "undefined" && savedToken !== null && savedUser !== "undefined" && savedUser !== null) {
-					console.log("Saved user:", savedUser)
 					this.token = savedToken
 					this.user = readonly(JSON.parse(savedUser))
-					// this.isAuthenticated = !!this.token && !!this.user;
 				}
 			}
 		},
 
 		// Connexion
 		async login(credentials) {
-			console.log("Login")
 			try {
 				const api = useApi();
 				const apiUrls = ApiUrls();
@@ -48,30 +43,24 @@ export const useAuthStore = defineStore('AuthStore', {
 				this.token = readonly(response.data.token)
 				this.user = readonly(loggedInUser);
 
-				console.log("user:", this.user);
-				console.log("Api user:", response.data.user);
-
 				// Sauvegarder en localStorage
 				if (process.client) {
 					localStorage.setItem('auth-token', response.data.token)
 					localStorage.setItem('auth-user', JSON.stringify(loggedInUser));
 
 
-					console.log("Symbol:", generateUserSymbol(loggedInUser.name));
 					localStorage.setItem("user-symbol", generateUserSymbol(loggedInUser.name));
 				}
 				await navigateTo(AppUrls.DASHBOARD.path);
 
 			} catch (e) {
 				this.message = getErrorMessage(e);
-				console.log("Error:", e);
 			}
 
 		},
 
 		// Déconnexion
 		async logout() {
-			console.log("Logout");
 			const apiUrls = ApiUrls();
 			const api = useApi();
 			try {
@@ -82,7 +71,6 @@ export const useAuthStore = defineStore('AuthStore', {
 				});
 			} catch (error) {
 				this.message = getErrorMessage(error);
-				console.log("Error:", error);
 			} finally {
 				// Nettoyer l'état local dans tous les cas
 				this.user = null
@@ -90,9 +78,9 @@ export const useAuthStore = defineStore('AuthStore', {
 				// this.isAuthenticated = false
 
 				if (process.client) {
-					console.log("Anorma")
 					localStorage.removeItem('auth-token')
 					localStorage.removeItem('auth-user')
+					localStorage.removeItem('user-symbol')
 				}
 
 				await navigateTo(AppUrls.LOGIN.path)
@@ -107,7 +95,6 @@ export const useAuthStore = defineStore('AuthStore', {
 			if (!this.token) return
 
 			try {
-				console.log("apiUrls.refreshData:", apiUrls.refreshData)
 				const response = await api.get(apiUrls.refreshData, {
 					headers: {
 						Authorization: `Bearer ${this.token}`
@@ -121,10 +108,8 @@ export const useAuthStore = defineStore('AuthStore', {
 					localStorage.setItem('auth-user', JSON.stringify(data));
 					localStorage.setItem("user-symbol", generateUserSymbol(data.name))
 				}
-				console.log("Data loaded")
 			} catch (error) {
 				this.message = getErrorMessage(error);
-				console.log("Error:", error);
 				await this.logout()
 			}
 		}

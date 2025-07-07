@@ -11,9 +11,11 @@
 
 		<div class="bg-blue-300 rounded-lg shadow-lg p-6 mb-6">
 			<div class="w-full flex justify-end">
-				<button type="submit" id="openModal" class="bg-white sm:w-full md:w-auto text-blue-500 px-4 py-2 rounded-lg mb-6 flex items-center gap-2">
-					<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+				<button type="submit" id="openModal"
+				        class="bg-white sm:w-full md:w-auto text-blue-500 px-4 py-2 rounded-lg mb-6 flex items-center gap-2">
+					<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-blue-500" fill="none" viewBox="0 0 24 24"
+					     stroke="currentColor">
+						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
 					</svg>
 					<span>Enregistrer</span>
 				</button>
@@ -97,7 +99,7 @@
 						</label>
 						<input
 								type="text"
-								v-model="configs.updatedAt"
+								v-model="configs.adminName"
 								id="responsibleName"
 								readonly
 								class="w-full px-4 py-3 border border-gray-300 bg-gray-100 rounded-lg focus:ring-2 focus:ring-blue-300 focus:border-blue-300 outline-none transition-all duration-200"
@@ -112,30 +114,32 @@
 </template>
 
 <script setup lang="js">
-definePageMeta({
-	middleware: 'auth'
-})
+import {toastify} from "~/composables/toastify.js";
 import MainVue from "~/componants/main-vue.vue";
 import {useContactDataStore} from "~/stores/ContactDataStore";
 import ConfirmModal from "~/componants/configs/confirm-modal.vue";
-import Toastify from "toastify-js";
+
+definePageMeta({
+	middleware: 'auth'
+})
 
 const contactDataStore = useContactDataStore();
 
 const configs = ref({
-	phone: "" ,
+	phone: "",
 	email: "",
 	responsibleName: "",
 	positionHeld: "",
 	createdAt: "",
-	updatedAt: ""
+	updatedAt: "",
+	adminName: ""
 });
 const message = ref("");
 
 contactDataStore.get().then(_ => {
 	configs.value = contactDataStore.contactData;
 	message.value = contactDataStore.message;
-	showToastify();
+	toastify(message.value, contactDataStore.isSuccess ? "success" : "error");
 });
 
 onMounted(() => {
@@ -190,27 +194,11 @@ onMounted(() => {
 	});
 });
 
-const toastify = Toastify({
-	text: contactDataStore.message || "Default message",
-	duration: 3000,
-	gravity: "top",
-	position: "right",
-	stopOnFocus: true,
-	close: true,
-	backgroundColor: "linear-gradient(to right, #00b09b, #96c93d)",
-});
-
-const showToastify = _ => {
-	toastify.options.text = message.value;
-	toastify.showToast()
-};
-
 const formSubmitHandler = () => {
-	console.log("Sent:", configs.value);
 	contactDataStore.update(configs.value).then(_ => {
 		message.value = contactDataStore.message;
 		contactDataStore.value = contactDataStore.contactData;
-		showToastify();
+		toastify(message.value, contactDataStore.isSuccess ? "success" : "error");
 	});
 };
 

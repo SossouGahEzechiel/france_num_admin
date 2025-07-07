@@ -13,8 +13,10 @@ export const useContactDataStore = defineStore('ContactDataStore', {
 			responsibleName: "",
 			positionHeld: "",
 			createdAt: "",
-			updatedAt: ""
+			updatedAt: "",
+			adminName: ""
 		},
+		isSuccess: true,
 		message: ""
 	}),
 	actions: {
@@ -26,8 +28,10 @@ export const useContactDataStore = defineStore('ContactDataStore', {
 				const response = await api.get(apiUrls.getConfigs)
 				this.contactData = response.data;
 				this.message = response.message || "Données chargées avec succès";
+				this.isSuccess = true;
 			} catch (error) {
 				this.message = getErrorMessage(error);
+				this.isSuccess = false;
 			}
 		},
 
@@ -39,12 +43,14 @@ export const useContactDataStore = defineStore('ContactDataStore', {
 				const response = await api.put(
 					apiUrls.updateConfig + "/" + this.contactData.id,
 					data
-				)
+				);
 
 				this.contactData = response.data;
 				this.message = response.message || "Données mises à jour avec succès";
+				this.isSuccess = true;
 			} catch (error) {
 				this.message = getErrorMessage(error);
+				this.isSuccess = false;
 			}
 		}
 	}

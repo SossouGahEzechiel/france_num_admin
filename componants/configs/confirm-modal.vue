@@ -1,8 +1,5 @@
 <template>
-	<div
-			id="modalOverlay"
-			class="fixed inset-0 bg-gray-400 bg-opacity-10 z-50 flex items-center justify-center hidden transition-opacity duration-300"
-	>
+	<ModalOverlay>
 		<!-- Modal Content -->
 		<div
 				id="modalContent"
@@ -58,10 +55,12 @@
 				</button>
 			</div>
 		</div>
-	</div>
+	</ModalOverlay>
 </template>
 
 <script lang="js" setup>
+import ModalOverlay from "~/componants/modal-overlay.vue";
+
 defineProps({
 	clickHandler: {
 		type: Function,

@@ -1,12 +1,16 @@
+import {useAuthStore} from "~/stores/AuthStore.js";
+
 export const useApi = () => {
 	const config = useRuntimeConfig()
 
 	const apiBase = config.public.apiBase
+	const {token} = useAuthStore();
 
 	const defaultHeaders = {
 		'Content-Type': 'application/json',
 		'Accept': 'application/json',
 		'ngrok-skip-browser-warning': 'true',
+		'Authorization': `Bearer ${token}`
 	}
 
 	return {
