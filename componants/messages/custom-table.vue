@@ -19,14 +19,13 @@
 			</th>
 		</tr>
 		</thead>
-		<tbody class="bg-white divide-y divide-gray-200">
+		<TablePlaceholder v-if="isDataLoading" :show-action-column="showActionColumn"/>
+		<tbody class="bg-white divide-y divide-gray-200" v-else>
 		<MessageRow v-for="(message, index) in messages" :key="message.id" :index="index" :message="message"
 		            @click="displayModal(message)" :show-action-column="showActionColumn"/>
 		<tr v-if="messages.length === 0">
 			<td :colspan="showActionColumn ? 6 : 5">
-				<div class="text-center bg-orange-300 text-white text-md p-5">
-					Aucun message à afficher
-				</div>
+				<EmptyDataCard :has-border="false" :show="messages.length === 0"/>
 			</td>
 		</tr>
 		</tbody>
@@ -34,7 +33,11 @@
 </template>
 
 <script setup lang="ts">
+
 import MessageRow from "~/componants/messages/message-row.vue";
+import EmptyDataCard from "~/componants/empty-data-card.vue";
+import TablePlaceholder from "~/componants/table-placeholder.vue";
+
 
 defineProps({
 	messages: {
@@ -49,6 +52,10 @@ defineProps({
 		}
 	},
 	showActionColumn: {
+		type: Boolean,
+		default: true
+	},
+	isDataLoading: {
 		type: Boolean,
 		default: true
 	}

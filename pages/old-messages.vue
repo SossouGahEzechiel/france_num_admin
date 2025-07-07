@@ -10,7 +10,7 @@
 		</div>
 
 		<div class="overflow-x-auto bg-white rounded-lg shadow hidden md:block">
-			<CustomTable :messages="newMessages" :show-action-column="false"/>
+			<CustomTable :messages="newMessages" :show-action-column="false" :is-data-loading="isDataLoading"/>
 		</div>
 
 		<!-- Version mobile (cartes) -->
@@ -25,17 +25,17 @@
 </template>
 
 <script setup lang="ts">
+definePageMeta({
+	middleware: 'auth',
+	title: AppUrls.OLD_MESSAGES.text
+});
+
 import CardPlaceholder from "~/componants/card-placeholder.vue";
 import {useNewMessagesStore} from "~/stores/NewMessagesStore";
 import MainVue from "~/componants/main-vue.vue";
 import CustomTable from "~/componants/messages/custom-table.vue";
 import MessageCard from "~/componants/messages/message-card.vue";
 import EmptyDataCard from "~/componants/empty-data-card.vue";
-
-definePageMeta({
-	middleware: 'auth',
-	title: AppUrls.OLD_MESSAGES.text
-});
 
 const newMessagesStore = useNewMessagesStore();
 const newMessages = ref([]);

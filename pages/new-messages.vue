@@ -10,7 +10,7 @@
 		</div>
 
 		<div class="overflow-x-auto bg-white rounded-lg shadow hidden md:block">
-			<CustomTable :messages="newMessages" :display-modal="displayModal"/>
+			<CustomTable :messages="newMessages" :display-modal="displayModal" :is-data-loading="isDataLoading"/>
 		</div>
 
 		<!-- Version mobile (cartes) -->

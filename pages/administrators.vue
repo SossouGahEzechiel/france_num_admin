@@ -32,7 +32,8 @@
 				</tr>
 				</thead>
 				<tbody class="bg-white divide-y divide-gray-200">
-				<tr v-for="(administrator, index) in administrators" :key="administrator.id"
+				<TablePlaceholder v-if="isDataLoading" :is-data-loading="isDataLoading"/>
+				<tr v-for="(administrator, index) in administrators" :key="administrator.id" v-else
 				    :class="['hover:bg-gray-100', adminId === administrator.id ? 'bg-green-50' : '']">
 					<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
 						{{ ++index }}
@@ -81,7 +82,7 @@
 						:administrator="administrator"
 						:key="administrator.id"
 						:index="++index"
-						:showButtons="adminId !== administrator.id"
+						:showButtons="adminId"
 						@delete="handleShowDeleteModal(administrator)"
 						@control="showActivationModal(administrator)"
 				/>
@@ -126,6 +127,7 @@ import {timeout} from "ioredis/built/utils";
 import DeleteModal from "~/componants/administrators/delete-modal.vue";
 import EmptyDataCard from "~/componants/empty-data-card.vue";
 import ItemCard from "~/componants/administrators/item-card.vue";
+import TablePlaceholder from "~/componants/table-placeholder.vue";
 
 definePageMeta({
 	middleware: 'auth',
