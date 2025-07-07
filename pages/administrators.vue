@@ -75,14 +75,14 @@
 		</div>
 
 		<div class="shadow md:hidden">
-			<CardPlaceholder :items="3" v-if="isDataLoading"/>
+			<CardPlaceholder :items="3" v-if="isDataLoading" class="mb-3"/>
 			<div v-else>
 				<ItemCard
 						v-for="(administrator, index) in administrators"
 						:administrator="administrator"
 						:key="administrator.id"
 						:index="++index"
-						:showButtons="ad"
+						:showButtons="adminId !== administrator.id"
 						@delete="handleShowDeleteModal(administrator)"
 						@control="showActivationModal(administrator)"
 				/>

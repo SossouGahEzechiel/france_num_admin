@@ -106,6 +106,9 @@
 definePageMeta({
 	middleware: 'guest',
 });
+
+usePageTitle(AppUrls.LOGIN.text);
+
 import Loader from "~/componants/loader.vue";
 import {useAuthStore} from "~/stores/AuthStore.js";
 

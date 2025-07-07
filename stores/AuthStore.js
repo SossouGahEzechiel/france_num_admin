@@ -69,9 +69,6 @@ export const useAuthStore = defineStore('AuthStore', {
 						Authorization: `Bearer ${this.token}`
 					}
 				});
-			} catch (error) {
-				this.message = getErrorMessage(error);
-			} finally {
 				// Nettoyer l'état local dans tous les cas
 				this.user = null
 				this.token = null
@@ -84,6 +81,8 @@ export const useAuthStore = defineStore('AuthStore', {
 				}
 
 				await navigateTo(AppUrls.LOGIN.path)
+			} catch (error) {
+				this.message = getErrorMessage(error);
 			}
 		},
 
