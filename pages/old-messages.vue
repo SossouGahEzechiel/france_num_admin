@@ -16,23 +16,26 @@
 		<!-- Version mobile (cartes) -->
 		<div class="mt-6 md:hidden space-y-4">
 			<CardPlaceholder :items="3" v-if="isDataLoading"/>
-			<MessageCard :display-modal="displayModal" :messages="newMessages" :show-action-column="false" v-else/>
+			<div v-else>
+				<EmptyDataCard :show="emptyData"/>
+				<MessageCard :display-modal="displayModal" :messages="newMessages" :show-action-column="false"/>
+			</div>
 		</div>
 	</MainVue>
 </template>
 
 <script setup lang="ts">
 import CardPlaceholder from "~/componants/card-placeholder.vue";
+import {useNewMessagesStore} from "~/stores/NewMessagesStore";
+import MainVue from "~/componants/main-vue.vue";
+import CustomTable from "~/componants/messages/custom-table.vue";
+import MessageCard from "~/componants/messages/message-card.vue";
+import EmptyDataCard from "~/componants/empty-data-card.vue";
 
 definePageMeta({
 	middleware: 'auth',
 	title: AppUrls.OLD_MESSAGES.text
 });
-
-import {useNewMessagesStore} from "~/stores/NewMessagesStore";
-import MainVue from "~/componants/main-vue.vue";
-import CustomTable from "~/componants/messages/custom-table.vue";
-import MessageCard from "~/componants/messages/message-card.vue";
 
 const newMessagesStore = useNewMessagesStore();
 const newMessages = ref([]);
