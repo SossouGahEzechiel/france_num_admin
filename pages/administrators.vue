@@ -166,10 +166,10 @@ async function confirmSave() {
 				console.log("administrators.newAdministrator:", adminStore.newAdministrator);
 				if (adminStore.isSuccess) {
 					showCreateModal.value = false;
-					isCreateModalLoading.value = false;
 					administrators.value.push(adminStore.newAdministrator);
 					newAdministrator.value = {name: "", email: ""};
 				}
+				isCreateModalLoading.value = false;
 			});
 	message.value = adminStore.message;
 }
