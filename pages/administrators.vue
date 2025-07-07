@@ -72,6 +72,22 @@
 				</tbody>
 			</table>
 		</div>
+
+		<div class="shadow md:hidden">
+			<CardPlaceholder :items="3" v-if="isDataLoading"/>
+			<div v-else>
+				<ItemCard
+						v-for="(administrator, index) in administrators"
+						:administrator="administrator"
+						:key="administrator.id"
+						:index="++index"
+						:showButtons="adminId !== administrator.id"
+						@delete="handleShowDeleteModal(administrator)"
+						@control="showActivationModal(administrator)"
+				/>
+				<EmptyDataCard :show="emptyData"/>
+			</div>
+		</div>
 		<CreateModal
 				:show="showCreateModal"
 				:newAdministrator="newAdministrator"
@@ -100,16 +116,21 @@
 	</MainVue>
 </template>
 <script setup lang="ts">
-definePageMeta({
-	middleware: 'auth',
-	title: AppUrls.ADMINISTRATORS.text
-});
+
+import CardPlaceholder from "~/componants/card-placeholder.vue";
 import MainVue from "~/componants/main-vue.vue";
 import {useAdminStore} from "~/stores/AdminStore";
 import CreateModal from "~/componants/administrators/create-modal.vue";
 import ActivationModal from "~/componants/administrators/activation-modal.vue";
 import {timeout} from "ioredis/built/utils";
 import DeleteModal from "~/componants/administrators/delete-modal.vue";
+import EmptyDataCard from "~/componants/empty-data-card.vue";
+import ItemCard from "~/componants/administrators/item-card.vue";
+
+definePageMeta({
+	middleware: 'auth',
+	title: AppUrls.ADMINISTRATORS.text
+});
 
 const administrators = ref<Array<{ id: number, name: string, email: string, isActive: boolean }>>([]);
 const showCreateModal = ref<Boolean>(false);
@@ -121,19 +142,20 @@ const isActivationModalLoading = ref<Boolean>(false);
 
 const showDeleteModal = ref<Boolean>(false);
 const isDeleteModalLoading = ref<Boolean>(false);
-
+const isDataLoading = ref<Boolean>(true);
 const selectedAdmin = ref<{ id: number, name: string, email: string, isActive: boolean }>({});
-
 const newAdministrator = ref<{ name: string, email: string }>({
 	name: "",
 	email: "",
 });
+const emptyData = computed(() => administrators.value.length === 0);
 
 const adminStore = useAdminStore();
 
 adminStore.getAdministrators().then(() => {
 	administrators.value = adminStore.administrators;
 	toastify(adminStore.message, adminStore.isSuccess ? "success" : "error");
+	isDataLoading.value = false;
 });
 
 async function confirmSave() {
@@ -190,13 +212,47 @@ function handleShowDeleteModal(administrator) {
 function handleDeleteModalSubmit() {
 	isDeleteModalLoading.value = true;
 	adminStore.delete(selectedAdmin.value.id)
-		.then(
-			() => {
-				showDeleteModal.value = false;
-				isDeleteModalLoading.value = false;
-				toastify(adminStore.message, adminStore.isSuccess ? "success" : "error");
-				administrators.value = administrators.value.filter((admin) => admin.id !== selectedAdmin.value.id);
-			}
-		);
+			.then(
+					() => {
+						showDeleteModal.value = false;
+						isDeleteModalLoading.value = false;
+						toastify(adminStore.message, adminStore.isSuccess ? "success" : "error");
+						administrators.value = administrators.value.filter((admin) => admin.id !== selectedAdmin.value.id);
+					}
+			);
 }
 </script>
+
+<style>
+@keyframes shimmer {
+	0% {
+		background-position: -200px 0;
+	}
+	100% {
+		background-position: calc(200px + 100%) 0;
+	}
+}
+
+.skeleton {
+	background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+	background-size: 200px 100%;
+	animation: shimmer 1.5s infinite;
+}
+
+.skeleton-text {
+	height: 1em;
+	border-radius: 4px;
+}
+
+.skeleton-button {
+	height: 2rem;
+	width: 2rem;
+	border-radius: 4px;
+}
+
+.skeleton-icon {
+	height: 1.25rem;
+	width: 1.25rem;
+	border-radius: 2px;
+}
+</style>

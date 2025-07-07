@@ -15,7 +15,11 @@
 
 		<!-- Version mobile (cartes) -->
 		<div class="mt-6 md:hidden space-y-4">
-			<MessageCard :display-modal="displayModal" :messages="newMessages"/>
+			<CardPlaceholder :items="3" v-if="isDataLoading"/>
+			<div v-else>
+				<MessageCard :display-modal="displayModal" :messages="newMessages"/>
+				<EmptyDataCard :show="emptyData"/>
+			</div>
 		</div>
 
 		<ConfirmModal
@@ -28,16 +32,19 @@
 </template>
 
 <script setup lang="js">
-definePageMeta({
-	middleware: 'auth',
-	title: AppUrls.NEW_MESSAGES.text
-});
+import CardPlaceholder from "~/componants/card-placeholder.vue";
 import {toastify} from "~/composables/toastify.js";
 import MainVue from "~/componants/main-vue.vue";
 import {useNewMessagesStore} from "~/stores/NewMessagesStore.js";
 import ConfirmModal from "~/componants/messages/confirm-modal.vue";
 import CustomTable from "~/componants/messages/custom-table.vue";
 import MessageCard from "~/componants/messages/message-card.vue";
+import EmptyDataCard from "~/componants/empty-data-card.vue";
+
+definePageMeta({
+	middleware: 'auth',
+	title: AppUrls.NEW_MESSAGES.text
+});
 
 
 const newMessagesStore = useNewMessagesStore();
@@ -47,13 +54,16 @@ const selectMessage = ref({
 	fullName: null,
 	id: null
 });
-const modalVisible = ref(false)
+const modalVisible = ref(false);
+const isDataLoading = ref(true);
+const emptyData = computed(() => newMessages.value.length === 0);
 
 newMessagesStore.getNewMessages().then(_ => {
 	newMessages.value = newMessagesStore.newMessages;
 	responseMessage.value = newMessagesStore.message;
 	localStorage.setItem("newMessagesCount", newMessages.value.length);
 	toastify(responseMessage.value, newMessagesStore.isSuccess ? "success" : "error");
+	isDataLoading.value = false;
 });
 
 function handleConfirm() {

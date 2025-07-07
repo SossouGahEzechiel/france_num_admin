@@ -15,12 +15,15 @@
 
 		<!-- Version mobile (cartes) -->
 		<div class="mt-6 md:hidden space-y-4">
-			<MessageCard :display-modal="displayModal" :messages="newMessages" :show-action-column="false"/>
+			<CardPlaceholder :items="3" v-if="isDataLoading"/>
+			<MessageCard :display-modal="displayModal" :messages="newMessages" :show-action-column="false" v-else/>
 		</div>
 	</MainVue>
 </template>
 
 <script setup lang="ts">
+import CardPlaceholder from "~/componants/card-placeholder.vue";
+
 definePageMeta({
 	middleware: 'auth',
 	title: AppUrls.MESSAGES.text
@@ -34,10 +37,12 @@ const newMessagesStore = useNewMessagesStore();
 
 const newMessages = ref([]);
 const responseMessage = ref("");
+const isDataLoading = ref(true);
 
 newMessagesStore.getAllMessages().then(() => {
 	newMessages.value = newMessagesStore.newMessages;
 	responseMessage.value = newMessagesStore.message;
 	toastify(newMessagesStore.message, newMessagesStore.isSuccess ? "success" : "error");
+	isDataLoading.value = false;
 });
 </script>
