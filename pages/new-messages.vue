@@ -34,7 +34,7 @@ definePageMeta({
 useHead({title: AppUrls.NEW_MESSAGES.text});
 import {toastify} from "~/composables/toastify.js";
 import MainVue from "~/componants/main-vue.vue";
-import {useNewMessagesStore} from "~/stores/newMessagesStore";
+import {useNewMessagesStore} from "~/stores/NewMessagesStore.js";
 import ConfirmModal from "~/componants/messages/confirm-modal.vue";
 import CustomTable from "~/componants/messages/custom-table.vue";
 import MessageCard from "~/componants/messages/message-card.vue";

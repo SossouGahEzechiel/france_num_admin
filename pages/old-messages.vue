@@ -26,8 +26,8 @@ definePageMeta({
 });
 useHead({title: AppUrls.OLD_MESSAGES.text});
 
+import {useNewMessagesStore} from "~/stores/NewMessagesStore";
 import MainVue from "~/componants/main-vue.vue";
-import {useNewMessagesStore} from "~/stores/newMessagesStore";
 import CustomTable from "~/componants/messages/custom-table.vue";
 import MessageCard from "~/componants/messages/message-card.vue";
 
