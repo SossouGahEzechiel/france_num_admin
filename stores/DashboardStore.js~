@@ -1,0 +1,29 @@
+import {defineStore} from "pinia";
+
+export const useDashboardStore = defineStore('dashboard', {
+	state: () => ({
+		administratorsCount: 0,
+		messagesCount: 0,
+		message: "",
+		isSuccess: true
+	}),
+
+	actions: {
+		async get(dashboard) {
+			const api = useApi();
+			const apiUrls = ApiUrls();
+
+			try {
+				const response = await api.get(apiUrls.dashboard);
+
+				this.administratorsCount = response.data.administratorsCount;
+				this.messagesCount = response.data.messagesCount;
+				this.message = response.message;
+				this.isSuccess= true;
+			} catch (error) {
+				this.message = getErrorMessage(error);
+				this.isSuccess = false;
+			}
+		}
+	}
+})

@@ -80,6 +80,7 @@ export const useAuthStore = defineStore('AuthStore', {
 					localStorage.removeItem('auth-token')
 					localStorage.removeItem('auth-user')
 					localStorage.removeItem('user-symbol')
+					localStorage.removeItem('newMessagesCount')
 				}
 
 				await navigateTo(AppUrls.LOGIN.path)

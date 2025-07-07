@@ -1,5 +1,7 @@
 export const ApiUrls = () => {
 	return {
+		dashboard: '/dashboard',
+
 		login: `/auth/login`,
 		logout: `/auth/logout`,
 		refreshData: `/auth/refresh-data`,
