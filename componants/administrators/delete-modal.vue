@@ -2,13 +2,13 @@
 	<transition name="fade">
 		<div
 				v-if="show"
-				@click="close"
+				@click="emits('close')"
 				class="fixed inset-0 z-50 flex items-center justify-center
              backdrop-blur-sm backdrop-brightness-75 bg-black/30"
 		>
 			<div @click.stop class="bg-white rounded-xl shadow-lg p-6 w-full max-w-md m-3">
 				<h2 class="text-xl font-semibold mb-4 flex items-center">
-					Voulez-vous désactiver ce compte ?
+					Voulez-vous supprimer ce compte ?
 				</h2>
 
 				<div class="flex items-center mb-4">
