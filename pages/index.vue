@@ -68,5 +68,6 @@
 	</MainVue>
 </template>
 <script setup lang="ts">
+useHead({title: AppUrls.DASHBOARD.text});
 import MainVue from "~/componants/main-vue.vue";
 </script>

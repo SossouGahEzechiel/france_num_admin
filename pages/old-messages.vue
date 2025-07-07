@@ -21,17 +21,17 @@
 </template>
 
 <script setup lang="ts">
+definePageMeta({
+	middleware: 'auth'
+});
+useHead({title: AppUrls.OLD_MESSAGES.text});
+
 import MainVue from "~/componants/main-vue.vue";
 import {useNewMessagesStore} from "~/stores/newMessagesStore";
 import CustomTable from "~/componants/messages/custom-table.vue";
 import MessageCard from "~/componants/messages/message-card.vue";
 
-definePageMeta({
-	middleware: 'auth'
-})
-
 const newMessagesStore = useNewMessagesStore();
-
 const newMessages = ref([]);
 
 newMessagesStore.getOldMessages().then(_ => {

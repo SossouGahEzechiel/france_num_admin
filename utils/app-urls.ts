@@ -1,6 +1,6 @@
 export const AppUrls = {
 	DASHBOARD: {
-		text: "MSS - Dashboard",
+		text: "Dashboard",
 		path: "/",
 	},
 	MESSAGES: {

@@ -114,6 +114,7 @@
 </template>
 
 <script setup lang="js">
+useHead({title: AppUrls.CONFIGURATIONS.text});
 import {toastify} from "~/composables/toastify.js";
 import MainVue from "~/componants/main-vue.vue";
 import {useContactDataStore} from "~/stores/ContactDataStore";

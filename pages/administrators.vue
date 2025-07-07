@@ -100,6 +100,7 @@
 	</MainVue>
 </template>
 <script setup lang="ts">
+useHead({title: AppUrls.ADMINISTRATORS.text});
 import MainVue from "~/componants/main-vue.vue";
 import {useAdminStore} from "~/stores/AdminStore";
 import CreateModal from "~/componants/administrators/create-modal.vue";

@@ -21,6 +21,7 @@
 </template>
 
 <script setup lang="ts">
+useHead({title: AppUrls.MESSAGES.text});
 import MainVue from "~/componants/main-vue.vue";
 import {useNewMessagesStore} from "~/stores/newMessagesStore";
 import CustomTable from "~/componants/messages/custom-table.vue";
