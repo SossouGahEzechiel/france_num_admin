@@ -114,15 +114,15 @@
 </template>
 
 <script setup lang="js">
-useHead({title: AppUrls.CONFIGURATIONS.text});
+definePageMeta({
+	middleware: 'auth',
+	title: AppUrls.CONFIGURATIONS.text
+});
+
 import {toastify} from "~/composables/toastify.js";
 import MainVue from "~/componants/main-vue.vue";
 import {useContactDataStore} from "~/stores/ContactDataStore";
 import ConfirmModal from "~/componants/configs/confirm-modal.vue";
-
-definePageMeta({
-	middleware: 'auth'
-})
 
 const contactDataStore = useContactDataStore();
 

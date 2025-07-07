@@ -29,9 +29,9 @@
 
 <script setup lang="js">
 definePageMeta({
-	middleware: 'auth'
+	middleware: 'auth',
+	title: AppUrls.NEW_MESSAGES.text
 });
-useHead({title: AppUrls.NEW_MESSAGES.text});
 import {toastify} from "~/composables/toastify.js";
 import MainVue from "~/componants/main-vue.vue";
 import {useNewMessagesStore} from "~/stores/NewMessagesStore.js";

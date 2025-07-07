@@ -21,15 +21,14 @@
 </template>
 
 <script setup lang="ts">
-useHead({title: AppUrls.MESSAGES.text});
+definePageMeta({
+	middleware: 'auth',
+	title: AppUrls.MESSAGES.text
+});
 import MainVue from "~/componants/main-vue.vue";
 import {useNewMessagesStore} from "~/stores/NewMessagesStore";
 import CustomTable from "~/componants/messages/custom-table.vue";
 import MessageCard from "~/componants/messages/message-card.vue";
-
-definePageMeta({
-	middleware: 'auth'
-})
 
 const newMessagesStore = useNewMessagesStore();
 
