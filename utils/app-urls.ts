@@ -19,10 +19,6 @@ export const AppUrls = {
 		text: "Administrateurs",
 		path: "/administrators",
 	},
-	NEW_ADMINISTRATORS: {
-		text: "Nouveaux administrateurs",
-		path: "/new-administrators",
-	},
 	CONFIGURATIONS: {
 		text: "Configurations",
 		path: "/configurations",
