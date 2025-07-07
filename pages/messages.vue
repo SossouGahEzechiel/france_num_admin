@@ -25,13 +25,15 @@
 import CardPlaceholder from "~/componants/card-placeholder.vue";
 
 definePageMeta({
-	middleware: 'auth',
-	title: AppUrls.MESSAGES.text
+	middleware: 'auth'
 });
+usePageTitle(AppUrls.MESSAGES.text);
+
 import MainVue from "~/componants/main-vue.vue";
 import {useNewMessagesStore} from "~/stores/NewMessagesStore";
 import CustomTable from "~/componants/messages/custom-table.vue";
 import MessageCard from "~/componants/messages/message-card.vue";
+import {usePageTitle} from "~/composables/use-page-title";
 
 const newMessagesStore = useNewMessagesStore();
 

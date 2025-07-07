@@ -6,11 +6,17 @@
 					<h2 class="text-lg font-semibold text-gray-900 ml-12 lg:ml-0"></h2>
 				</div>
 				<div class="flex items-center space-x-4">
-					<div class="relative">
-						<button @click="toggleUserMenu"
-						        class="w-8 h-8 bg-blue-300 rounded-full flex items-center justify-center focus:outline-none hover:bg-blue-500">
-							<span class="text-white text-sm font-medium">{{ userSymbol }}</span>
-						</button>
+					<div class="relative hover:cursor-pointer" @click="toggleUserMenu">
+						<div class="flex items-center">
+							<button
+									class="w-8 h-8 bg-blue-300 rounded-full flex items-center justify-center focus:outline-none hover:bg-blue-500">
+								<span class="text-white text-sm font-medium">{{ userSymbol }}</span>
+							</button> &nbsp;
+							<div class="ml-2">
+								<b>{{ user.name }}</b>
+								<span class="text-sm block text-gray-500">{{ user.email }}</span>
+							</div>
+						</div>
 
 						<!-- Menu utilisateur -->
 						<div v-if="isUserMenuOpen"
@@ -48,6 +54,7 @@ const authStore = useAuthStore();
 const isUserMenuOpen = ref(false);
 
 const userSymbol = ref("");
+const user = ref({});
 
 const toggleUserMenu = () => {
 	isUserMenuOpen.value = !isUserMenuOpen.value;
@@ -65,13 +72,14 @@ const handleClickOutside = (event) => {
 onMounted(() => {
 	document.addEventListener('click', handleClickOutside);
 	userSymbol.value = localStorage.getItem('user-symbol');
+	user.value = JSON.parse(localStorage.getItem('auth-user'));
 });
 
 onBeforeUnmount(() => {
 	document.removeEventListener('click', handleClickOutside);
 });
 
-const handleLogout = () => {
-	authStore.logout();
+const handleLogout = async () => {
+	await authStore.logout();
 }
 </script>

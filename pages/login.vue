@@ -105,8 +105,6 @@
 <script lang="js" setup>
 definePageMeta({
 	middleware: 'guest',
-	title: AppUrls.LOGIN.text,
-	ssr: false
 });
 import Loader from "~/componants/loader.vue";
 import {useAuthStore} from "~/stores/AuthStore.js";

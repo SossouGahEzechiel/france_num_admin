@@ -25,10 +25,13 @@
 </template>
 
 <script setup lang="ts">
+import {usePageTitle} from "~/composables/use-page-title";
+
 definePageMeta({
-	middleware: 'auth',
-	title: AppUrls.OLD_MESSAGES.text
+	middleware: 'auth'
 });
+
+usePageTitle(AppUrls.OLD_MESSAGES.text);
 
 import CardPlaceholder from "~/componants/card-placeholder.vue";
 import {useNewMessagesStore} from "~/stores/NewMessagesStore";

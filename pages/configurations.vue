@@ -114,10 +114,13 @@
 </template>
 
 <script setup lang="js">
+import {usePageTitle} from "~/composables/use-page-title.js";
+
 definePageMeta({
-	middleware: 'auth',
-	title: AppUrls.CONFIGURATIONS.text
+	middleware: 'auth'
 });
+
+usePageTitle(AppUrls.CONFIGURATIONS.text);
 
 import {toastify} from "~/composables/toastify.js";
 import MainVue from "~/componants/main-vue.vue";

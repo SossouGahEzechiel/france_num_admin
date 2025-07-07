@@ -68,9 +68,12 @@
 	</MainVue>
 </template>
 <script setup lang="ts">
+import {usePageTitle} from "~/composables/use-page-title";
+
 definePageMeta({
-	middleware: 'auth',
-	title: AppUrls.DASHBOARD.text
+	middleware: 'auth'
 });
+
+usePageTitle(AppUrls.DASHBOARD.text);
 import MainVue from "~/componants/main-vue.vue";
 </script>

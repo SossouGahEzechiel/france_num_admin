@@ -15,7 +15,10 @@ export default defineNuxtConfig({
 
 	app: {
 		head: {
-			titleTemplate: "%s - MSS Admin",
+			// titleTemplate: "%s - MSS Admin",
+			titleTemplate: (titleChunk) => {
+				return titleChunk ? `${titleChunk} - MSS Admin` : 'MSS Admin';
+			},
 			meta: [
 				{charset: "utf-8"},
 				{name: "viewport", content: "width=device-width, initial-scale=1"},

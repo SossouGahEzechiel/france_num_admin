@@ -82,7 +82,7 @@
 						:administrator="administrator"
 						:key="administrator.id"
 						:index="++index"
-						:showButtons="adminId"
+						:showButtons="ad"
 						@delete="handleShowDeleteModal(administrator)"
 						@control="showActivationModal(administrator)"
 				/>
@@ -123,16 +123,18 @@ import MainVue from "~/componants/main-vue.vue";
 import {useAdminStore} from "~/stores/AdminStore";
 import CreateModal from "~/componants/administrators/create-modal.vue";
 import ActivationModal from "~/componants/administrators/activation-modal.vue";
-import {timeout} from "ioredis/built/utils";
 import DeleteModal from "~/componants/administrators/delete-modal.vue";
 import EmptyDataCard from "~/componants/empty-data-card.vue";
 import ItemCard from "~/componants/administrators/item-card.vue";
 import TablePlaceholder from "~/componants/table-placeholder.vue";
+import {usePageTitle} from "~/composables/use-page-title";
 
 definePageMeta({
 	middleware: 'auth',
-	title: AppUrls.ADMINISTRATORS.text
 });
+
+usePageTitle(AppUrls.ADMINISTRATORS.text);
+
 
 const administrators = ref<Array<{ id: number, name: string, email: string, isActive: boolean }>>([]);
 const showCreateModal = ref<Boolean>(false);
@@ -201,9 +203,6 @@ function handleActionModalSubmit() {
 				toastify(adminStore.message, adminStore.isSuccess ? "success" : "error");
 			}
 	);
-	timeout(() => {
-		console.log("isActivationModalLoading.value:", isActivationModalLoading.value);
-	}, 2000);
 }
 
 function handleShowDeleteModal(administrator) {

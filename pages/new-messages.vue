@@ -40,12 +40,13 @@ import ConfirmModal from "~/componants/messages/confirm-modal.vue";
 import CustomTable from "~/componants/messages/custom-table.vue";
 import MessageCard from "~/componants/messages/message-card.vue";
 import EmptyDataCard from "~/componants/empty-data-card.vue";
+import {usePageTitle} from "~/composables/use-page-title.js";
 
 definePageMeta({
-	middleware: 'auth',
-	title: AppUrls.NEW_MESSAGES.text
+	middleware: 'auth'
 });
 
+usePageTitle(AppUrls.NEW_MESSAGES.text);
 
 const newMessagesStore = useNewMessagesStore();
 const newMessages = ref([]);

@@ -75,7 +75,6 @@ export const useAuthStore = defineStore('AuthStore', {
 				// Nettoyer l'état local dans tous les cas
 				this.user = null
 				this.token = null
-				// this.isAuthenticated = false
 
 				if (process.client) {
 					localStorage.removeItem('auth-token')
