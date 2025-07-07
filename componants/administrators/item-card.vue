@@ -49,7 +49,7 @@ const emits = defineEmits(["delete", "control"]);
 			     stroke="currentColor">
 				<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
 				      d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-4m-5 0H3m18 0v-7a2 2 0 00-2-2h-2m-2-2V9a2 2 0 00-2-2H9a2 2 0 00-2 2v10m6 0V9a2 2 0 00-2-2H9a2 2 0 00-2 2v12"/>
-			</svg> &nbsp;:
+			</svg> &nbsp;:&nbsp;
 			<a :href="`mailto:${administrator.email}`" class="text-blue-500 hover:text-blue-600" target="_blank">
 				{{ administrator.email }}
 			</a>
