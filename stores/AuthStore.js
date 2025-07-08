@@ -63,6 +63,7 @@ export const useAuthStore = defineStore('AuthStore', {
 		async logout() {
 			const apiUrls = ApiUrls();
 			const api = useApi();
+
 			try {
 				await api.post(apiUrls.logout, {}, {
 					headers: {
@@ -80,7 +81,7 @@ export const useAuthStore = defineStore('AuthStore', {
 					localStorage.removeItem('newMessagesCount')
 				}
 
-				await navigateTo(AppUrls.LOGIN.path)
+				await navigateTo(AppUrls.LOGIN.path);
 			} catch (error) {
 				this.message = getErrorMessage(error);
 			}
@@ -111,6 +112,14 @@ export const useAuthStore = defineStore('AuthStore', {
 				this.message = getErrorMessage(error);
 				await this.logout()
 			}
+		},
+
+		async softLogout() {
+			localStorage.removeItem('auth-token');
+			localStorage.removeItem('auth-user');
+			localStorage.removeItem('user-symbol');
+			localStorage.removeItem('newMessagesCount');
+			await navigateTo(AppUrls.LOGIN.path);
 		}
 	},
 

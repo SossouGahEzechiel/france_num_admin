@@ -1,7 +1,9 @@
 <template>
 	<div class="min-h-screen bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8 px-5">
 		<div class="hidden md:block w-0.5">
-			<img src="~/public/assets/images/Connected%20world-amico.png" alt="">
+			<ClientOnly>
+				<img src="~/public/assets/images/Connected%20world-amico.png" alt="">
+			</ClientOnly>
 		</div>
 		<div class="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
 			<div class="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
@@ -9,9 +11,11 @@
 					<h3 class="mt-6 text-center text-lg font-bold text-gray-900">
 						Connectez-vous à votre compte
 					</h3>
-					<p class="bg-red-300 text-center text-lg text-white mt-3 p-2 border border-red-500 rounded" v-if="message">
-						{{ message }}
-					</p>
+					<ClientOnly>
+						<p v-if="message" class="bg-red-300 text-center text-lg text-white mt-3 p-2 border border-red-500 rounded">
+							{{ message }}
+						</p>
+					</ClientOnly>
 					<!--					<p class="bg-red-300 text-center text-lg font-bold text-white">{{ message}}</p>-->
 				</div>
 				<form class="space-y-6" @submit.prevent="handleLogin" method="post">
@@ -92,8 +96,10 @@
 								class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-300 hover:bg-blue-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-600"
 								:disabled="loading"
 						>
-							<span v-if="!loading">Se connecter</span>
-							<Loader v-else/>
+							<ClientOnly>
+								<span v-if="!loading">Se connecter</span>
+								<Loader v-else/>
+							</ClientOnly>
 						</button>
 					</div>
 				</form>
